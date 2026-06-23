@@ -1,0 +1,2 @@
+-- Seed is intentionally empty for Phase 0.
+-- Tests create their own isolated data via the API.

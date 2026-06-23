@@ -1,0 +1,21 @@
+# env
+.env
+.env.local
+.env.*.local
+
+# deps
+node_modules/
+.pnpm-store/
+
+# build
+.next/
+dist/
+build/
+
+# supabase
+supabase/.branches/
+supabase/.temp/
+
+# misc
+.DS_Store
+*.log
