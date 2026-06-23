@@ -10,6 +10,7 @@ class StatTile extends StatelessWidget {
     super.key,
     required this.icon,
     required this.iconBg,
+    required this.tintColor,
     required this.value,
     required this.label,
     required this.index,
@@ -17,6 +18,7 @@ class StatTile extends StatelessWidget {
 
   final IconData icon;
   final Color iconBg;
+  final Color tintColor; // semantic fg — colors icon + metric number
   final int value;
   final String label;
   final int index;
@@ -38,7 +40,7 @@ class StatTile extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            // Icon chip — compact 30×30
+            // Icon chip — tinted
             Container(
               width: 30,
               height: 30,
@@ -46,13 +48,16 @@ class StatTile extends StatelessWidget {
                 color: iconBg,
                 borderRadius: BorderRadius.circular(8),
               ),
-              child: Icon(icon, size: 15, color: _darken(iconBg)),
+              child: Icon(icon, size: 15, color: tintColor),
             ),
             const SizedBox(height: 8),
-            // Big tabular number
+            // Metric number — inherits tint
             CountUpText(
               end: value.toDouble(),
-              style: SakhiText.metricLarge.copyWith(fontSize: 22),
+              style: SakhiText.metricLarge.copyWith(
+                fontSize: 22,
+                color: tintColor,
+              ),
               delay: Duration(milliseconds: 420 + index * 50),
             ),
             const SizedBox(height: 2),
@@ -69,10 +74,5 @@ class StatTile extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  static Color _darken(Color bg) {
-    final hsl = HSLColor.fromColor(bg);
-    return hsl.withLightness((hsl.lightness - 0.35).clamp(0.1, 1.0)).toColor();
   }
 }

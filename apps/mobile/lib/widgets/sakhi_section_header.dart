@@ -19,7 +19,15 @@ class SakhiSectionHeader extends StatelessWidget {
     return Row(
       children: [
         Expanded(
-          child: Text(title, style: SakhiText.title),
+          child: Text(
+            title,
+            style: SakhiText.title.copyWith(
+              fontSize: 14,
+              fontWeight: FontWeight.w600,
+              color: SakhiColors.neutral700,
+              letterSpacing: 0,
+            ),
+          ),
         ),
         if (action != null)
           GestureDetector(

@@ -168,6 +168,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: StatTile(
                           icon: Icons.person_add_rounded,
                           iconBg: SakhiColors.primary50,
+                          tintColor: SakhiColors.brand,
                           value: MockData.clientsAdded,
                           label: _s.statClientsAdded,
                           index: 0,
@@ -178,6 +179,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: StatTile(
                           icon: Icons.notifications_active_rounded,
                           iconBg: SakhiColors.amber50,
+                          tintColor: SakhiColors.warningFg,
                           value: MockData.remindersSent,
                           label: _s.statRemindersSent,
                           index: 1,
@@ -188,6 +190,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: StatTile(
                           icon: Icons.verified_rounded,
                           iconBg: SakhiColors.successBg,
+                          tintColor: SakhiColors.successFg,
                           value: MockData.kycCompleted,
                           label: _s.statKycCompleted,
                           index: 2,

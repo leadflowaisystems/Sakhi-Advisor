@@ -25,7 +25,7 @@ class SakhiStatusPill extends StatelessWidget {
     };
 
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+      padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
       decoration: BoxDecoration(
         color: bg,
         borderRadius: BorderRadius.circular(6),
@@ -35,7 +35,8 @@ class SakhiStatusPill extends StatelessWidget {
         style: SakhiText.caption.copyWith(
           color: fg,
           fontWeight: FontWeight.w600,
-          height: 1.2,
+          fontSize: 11,
+          height: 1.3,
         ),
       ),
     );

@@ -126,7 +126,6 @@ class HeroCard extends StatelessWidget {
                       Sparkline(
                         data: MockData.sparklineData,
                         color: Colors.white.withValues(alpha: 0.9),
-                        fillColor: Colors.white.withValues(alpha: 0.10),
                         strokeWidth: 1.8,
                         width: 72,
                         height: 32,

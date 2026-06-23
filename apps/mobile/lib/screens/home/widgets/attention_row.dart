@@ -47,7 +47,7 @@ class AttentionRow extends StatelessWidget {
       index: index,
       baseDelay: const Duration(milliseconds: 600),
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 13),
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
         decoration: BoxDecoration(
           color: SakhiColors.surface,
           borderRadius: BorderRadius.circular(SakhiElevation.r16),
