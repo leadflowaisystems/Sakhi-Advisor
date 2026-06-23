@@ -9,10 +9,7 @@ import '../../../widgets/sparkline.dart';
 import '../../../mock/mock_data.dart';
 
 class HeroCard extends StatelessWidget {
-  const HeroCard({
-    super.key,
-    required this.strings,
-  });
+  const HeroCard({super.key, required this.strings});
 
   final SakhiStrings strings;
 
@@ -24,120 +21,143 @@ class HeroCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(SakhiElevation.r20),
         boxShadow: SakhiElevation.hero,
         gradient: const LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
+          begin: Alignment(-0.6, -1.0),
+          end: Alignment(1.0, 1.0),
           colors: [
-            SakhiColors.heroBase,
+            Color(0xFF0D5C53), // lighter top-left spotlight
             SakhiColors.heroMid,
-            SakhiColors.heroHighlight,
+            SakhiColors.heroBase,
           ],
-          stops: [0.0, 0.55, 1.0],
+          stops: [0.0, 0.45, 1.0],
         ),
       ),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(SakhiElevation.r20),
         child: Stack(
           children: [
-            // Subtle inner highlight glow
+            // Subtle radial glow in top-left corner
             Positioned(
-              top: -60,
-              right: -40,
+              top: -30,
+              left: -20,
               child: Container(
-                width: 200,
-                height: 200,
+                width: 160,
+                height: 160,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: Colors.white.withValues(alpha: 0.04),
+                  gradient: RadialGradient(
+                    colors: [
+                      Colors.white.withValues(alpha: 0.07),
+                      Colors.transparent,
+                    ],
+                  ),
                 ),
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(20),
-              child: Column(
+              padding: const EdgeInsets.fromLTRB(16, 14, 16, 14),
+              child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Header row
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                  // ── Left: labels + big number ──────────────────────────
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // Practice label row
+                        Row(
                           children: [
                             Text(
                               strings.heroPracticeLabel,
-                              style: SakhiText.label.copyWith(
-                                color: Colors.white.withValues(alpha: 0.65),
-                                letterSpacing: 0.4,
+                              style: SakhiText.caption.copyWith(
+                                color: Colors.white.withValues(alpha: 0.6),
+                                letterSpacing: 0.3,
+                                height: 1.0,
                               ),
                             ),
-                            const SizedBox(height: 2),
+                            Text(
+                              '  ·  ',
+                              style: SakhiText.caption.copyWith(
+                                color: Colors.white.withValues(alpha: 0.3),
+                                height: 1.0,
+                              ),
+                            ),
                             Text(
                               strings.heroMonthLabel,
-                              style: SakhiText.bodyMedium.copyWith(
-                                color: Colors.white.withValues(alpha: 0.9),
+                              style: SakhiText.caption.copyWith(
+                                color: Colors.white.withValues(alpha: 0.7),
                                 fontWeight: FontWeight.w600,
+                                height: 1.0,
                               ),
                             ),
                           ],
                         ),
-                      ),
-                      // Sparkline
+                        const SizedBox(height: 10),
+
+                        // Big AUM figure with count-up
+                        CountUpText(
+                          end: MockData.totalAum,
+                          style: SakhiText.moneyDisplay.copyWith(fontSize: 30),
+                          formatFn: (v) => InrFormatter.format(v, compact: false),
+                          delay: const Duration(milliseconds: 150),
+                        ),
+
+                        const SizedBox(height: 4),
+
+                        // Subtitle — short, no orphan wrap
+                        Text(
+                          strings.heroSubtitle,
+                          style: SakhiText.caption.copyWith(
+                            color: Colors.white.withValues(alpha: 0.55),
+                            height: 1.4,
+                          ),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  const SizedBox(width: 12),
+
+                  // ── Right: sparkline + trend chip ─────────────────────
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
                       Sparkline(
                         data: MockData.sparklineData,
                         color: Colors.white.withValues(alpha: 0.9),
-                        fillColor: Colors.white.withValues(alpha: 0.12),
-                        strokeWidth: 2,
-                        width: 80,
-                        height: 36,
+                        fillColor: Colors.white.withValues(alpha: 0.10),
+                        strokeWidth: 1.8,
+                        width: 72,
+                        height: 32,
+                      ),
+                      const SizedBox(height: 8),
+                      // Trend chip — inline with sparkline column
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 7, vertical: 3),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF1A7A4A).withValues(alpha: 0.22),
+                          borderRadius: BorderRadius.circular(6),
+                          border: Border.all(
+                            color: const Color(0xFF6EE7B7).withValues(alpha: 0.35),
+                            width: 1,
+                          ),
+                        ),
+                        child: Text(
+                          strings.heroTrend,
+                          style: SakhiText.caption.copyWith(
+                            color: const Color(0xFF6EE7B7),
+                            fontWeight: FontWeight.w600,
+                            fontSize: 10,
+                            height: 1.0,
+                            fontFeatures: const [FontFeature.tabularFigures()],
+                          ),
+                          maxLines: 2,
+                          textAlign: TextAlign.right,
+                        ),
                       ),
                     ],
-                  ),
-
-                  const SizedBox(height: 16),
-
-                  // Big money figure
-                  CountUpText(
-                    end: MockData.totalAum,
-                    style: SakhiText.moneyDisplay,
-                    formatFn: (v) => InrFormatter.format(v, compact: false),
-                    delay: const Duration(milliseconds: 200),
-                  ),
-
-                  const SizedBox(height: 6),
-
-                  // Subtitle — wrap-safe
-                  Text(
-                    strings.heroSubtitle,
-                    style: SakhiText.caption.copyWith(
-                      color: Colors.white.withValues(alpha: 0.6),
-                      height: 1.5,
-                    ),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-
-                  const SizedBox(height: 14),
-
-                  // Trend chip
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 10, vertical: 5),
-                    decoration: BoxDecoration(
-                      color: SakhiColors.successFg.withValues(alpha: 0.18),
-                      borderRadius: BorderRadius.circular(8),
-                      border: Border.all(
-                        color: SakhiColors.successFg.withValues(alpha: 0.3),
-                        width: 1,
-                      ),
-                    ),
-                    child: Text(
-                      strings.heroTrend,
-                      style: SakhiText.caption.copyWith(
-                        color: const Color(0xFF6EE7B7),
-                        fontWeight: FontWeight.w600,
-                        fontFeatures: const [FontFeature.tabularFigures()],
-                      ),
-                    ),
                   ),
                 ],
               ),

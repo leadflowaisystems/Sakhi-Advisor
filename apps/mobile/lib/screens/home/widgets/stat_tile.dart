@@ -25,9 +25,9 @@ class StatTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return StaggerEntrance(
       index: index,
-      baseDelay: const Duration(milliseconds: 400),
+      baseDelay: const Duration(milliseconds: 380),
       child: Container(
-        padding: const EdgeInsets.all(14),
+        padding: const EdgeInsets.fromLTRB(12, 12, 12, 12),
         decoration: BoxDecoration(
           color: SakhiColors.surface,
           borderRadius: BorderRadius.circular(SakhiElevation.r16),
@@ -36,28 +36,32 @@ class StatTile extends StatelessWidget {
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
           children: [
-            // Icon chip
+            // Icon chip — compact 30×30
             Container(
-              width: 36,
-              height: 36,
+              width: 30,
+              height: 30,
               decoration: BoxDecoration(
                 color: iconBg,
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(8),
               ),
-              child: Icon(icon, size: 18, color: _darken(iconBg)),
+              child: Icon(icon, size: 15, color: _darken(iconBg)),
             ),
-            const SizedBox(height: 12),
-            // Big number
+            const SizedBox(height: 8),
+            // Big tabular number
             CountUpText(
               end: value.toDouble(),
-              style: SakhiText.metricLarge,
-              delay: Duration(milliseconds: 500 + index * 60),
+              style: SakhiText.metricLarge.copyWith(fontSize: 22),
+              delay: Duration(milliseconds: 420 + index * 50),
             ),
-            const SizedBox(height: 4),
+            const SizedBox(height: 2),
             Text(
               label,
-              style: SakhiText.label,
+              style: SakhiText.caption.copyWith(
+                color: SakhiColors.neutral500,
+                height: 1.3,
+              ),
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
             ),

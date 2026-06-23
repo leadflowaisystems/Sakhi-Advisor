@@ -45,7 +45,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future<void> _onRefresh() async {
     setState(() => _state = HomeState.loading);
-    await Future.delayed(const Duration(milliseconds: 1600));
+    await Future.delayed(const Duration(milliseconds: 1400));
     if (mounted) setState(() => _state = HomeState.data);
   }
 
@@ -71,13 +71,17 @@ class _HomeScreenState extends State<HomeScreen> {
       elevation: 0,
       scrolledUnderElevation: 0,
       titleSpacing: 16,
+      toolbarHeight: 52,
       title: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
           Text(
             _s.greet('Priya'),
-            style: SakhiText.title.copyWith(color: SakhiColors.neutral900),
+            style: SakhiText.title.copyWith(
+              color: SakhiColors.neutral900,
+              fontSize: 16,
+            ),
             overflow: TextOverflow.ellipsis,
           ),
           Text(
@@ -88,17 +92,15 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       actions: [
         Padding(
-          padding: const EdgeInsets.only(right: 16),
+          padding: const EdgeInsets.only(right: 14),
           child: GestureDetector(
             onTap: () => MilestoneCelebration.show(
               context,
-              message: widget.locale == SakhiLocale.english
-                  ? 'Great work, Priya! 🎉'
-                  : 'அருமை, பிரியா! 🎉',
+              message: _s.celebGreatWork,
             ),
             child: const SakhiAvatar(
               initials: 'PA',
-              size: 36,
+              size: 34,
               backgroundColor: SakhiColors.brand,
             ),
           ),
@@ -123,9 +125,7 @@ class _HomeScreenState extends State<HomeScreen> {
         actionLabel: _s.emptyAction,
         onAction: () => MilestoneCelebration.show(
           context,
-          message: widget.locale == SakhiLocale.english
-              ? 'First client added!'
-              : 'முதல் வாடிக்கையாளர் சேர்க்கப்பட்டார்!',
+          message: _s.celebFirstClient,
         ),
       ),
     );
@@ -135,7 +135,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return RefreshIndicator(
       color: SakhiColors.brand,
       backgroundColor: SakhiColors.surface,
-      strokeWidth: 2.5,
+      strokeWidth: 2,
       onRefresh: _onRefresh,
       child: CustomScrollView(
         physics: const AlwaysScrollableScrollPhysics(),
@@ -144,7 +144,7 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SizedBox(height: 8),
+                const SizedBox(height: 6),
 
                 // ── Hero card ─────────────────────────────────────────────
                 StaggerEntrance(
@@ -152,14 +152,14 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: HeroCard(strings: _s),
                 ),
 
-                const SizedBox(height: 24),
+                const SizedBox(height: 20),
 
                 // ── Month stats ───────────────────────────────────────────
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: SakhiSectionHeader(title: _s.sectionMonthSoFar),
                 ),
-                const SizedBox(height: 12),
+                const SizedBox(height: 10),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: Row(
@@ -173,7 +173,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           index: 0,
                         ),
                       ),
-                      const SizedBox(width: 10),
+                      const SizedBox(width: 8),
                       Expanded(
                         child: StatTile(
                           icon: Icons.notifications_active_rounded,
@@ -183,7 +183,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           index: 1,
                         ),
                       ),
-                      const SizedBox(width: 10),
+                      const SizedBox(width: 8),
                       Expanded(
                         child: StatTile(
                           icon: Icons.verified_rounded,
@@ -197,7 +197,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
 
-                const SizedBox(height: 24),
+                const SizedBox(height: 20),
 
                 // ── Attention section ─────────────────────────────────────
                 Padding(
@@ -207,7 +207,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     action: _s.seeAll,
                   ),
                 ),
-                const SizedBox(height: 12),
+                const SizedBox(height: 10),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: Column(
@@ -222,13 +222,13 @@ class _HomeScreenState extends State<HomeScreen> {
                           onAction: () => HapticFeedback.mediumImpact(),
                         ),
                         if (i < MockData.attentionClients.length - 1)
-                          const SizedBox(height: 8),
+                          const SizedBox(height: 6),
                       ],
                     ],
                   ),
                 ),
 
-                const SizedBox(height: 24),
+                const SizedBox(height: 20),
 
                 // ── Recent activity ───────────────────────────────────────
                 Padding(
@@ -261,8 +261,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
 
-                // Bottom padding for FAB
-                const SizedBox(height: 96),
+                // Space for FAB
+                const SizedBox(height: 88),
               ],
             ),
           ),
@@ -275,14 +275,13 @@ class _HomeScreenState extends State<HomeScreen> {
     return _PressFab(
       onTap: () => MilestoneCelebration.show(
         context,
-        message: widget.locale == SakhiLocale.english
-            ? 'Adding new client...'
-            : 'புதிய வாடிக்கையாளரை சேர்க்கிறோம்...',
+        message: _s.celebAddingClient,
       ),
     );
   }
 }
 
+// ── Press-scale FAB ───────────────────────────────────────────────────────────
 class _PressFab extends StatefulWidget {
   const _PressFab({required this.onTap});
   final VoidCallback onTap;
@@ -301,7 +300,7 @@ class _PressFabState extends State<_PressFab>
     super.initState();
     _ctrl = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 100),
+      duration: const Duration(milliseconds: 90),
       lowerBound: 0,
       upperBound: 1,
     );
@@ -328,92 +327,75 @@ class _PressFabState extends State<_PressFab>
       child: ScaleTransition(
         scale: _scale,
         child: Container(
-          width: 56,
-          height: 56,
+          width: 52,
+          height: 52,
           decoration: BoxDecoration(
             color: SakhiColors.brand,
             shape: BoxShape.circle,
             boxShadow: [
               BoxShadow(
-                color: SakhiColors.brand.withValues(alpha: 0.35),
-                blurRadius: 12,
+                color: SakhiColors.brand.withValues(alpha: 0.30),
+                blurRadius: 10,
                 offset: const Offset(0, 4),
               ),
             ],
           ),
-          child: const Icon(Icons.add_rounded, color: Colors.white, size: 28),
+          child: const Icon(Icons.add_rounded, color: Colors.white, size: 26),
         ),
       ),
     );
   }
 }
 
-// ── Loading skeleton ─────────────────────────────────────────────────────────
+// ── Loading skeleton ──────────────────────────────────────────────────────────
 class _LoadingState extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.fromLTRB(16, 6, 16, 16),
       physics: const NeverScrollableScrollPhysics(),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Hero skeleton
           Container(
-            height: 168,
+            height: 130,
             decoration: BoxDecoration(
               color: SakhiColors.neutral100,
               borderRadius: BorderRadius.circular(SakhiElevation.r20),
             ),
-            child: const Center(
-              child: ShimmerSkeleton(width: 200, height: 20),
-            ),
           ),
-          const SizedBox(height: 24),
-          const ShimmerSkeleton(width: 160, height: 18),
-          const SizedBox(height: 12),
+          const SizedBox(height: 20),
+          const ShimmerSkeleton(width: 130, height: 14),
+          const SizedBox(height: 10),
           Row(
             children: [
-              Expanded(
+              for (int i = 0; i < 3; i++) ...[
+                Expanded(
                   child: Container(
-                height: 100,
-                decoration: BoxDecoration(
-                  color: SakhiColors.neutral100,
-                  borderRadius: BorderRadius.circular(16),
+                    height: 88,
+                    decoration: BoxDecoration(
+                      color: SakhiColors.neutral100,
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                  ),
                 ),
-              )),
-              const SizedBox(width: 10),
-              Expanded(
-                  child: Container(
-                height: 100,
-                decoration: BoxDecoration(
-                  color: SakhiColors.neutral100,
-                  borderRadius: BorderRadius.circular(16),
-                ),
-              )),
-              const SizedBox(width: 10),
-              Expanded(
-                  child: Container(
-                height: 100,
-                decoration: BoxDecoration(
-                  color: SakhiColors.neutral100,
-                  borderRadius: BorderRadius.circular(16),
-                ),
-              )),
+                if (i < 2) const SizedBox(width: 8),
+              ],
             ],
           ),
-          const SizedBox(height: 24),
-          const ShimmerSkeleton(width: 180, height: 18),
-          const SizedBox(height: 12),
+          const SizedBox(height: 20),
+          const ShimmerSkeleton(width: 160, height: 14),
+          const SizedBox(height: 10),
           for (int i = 0; i < 3; i++) ...[
             Container(
-              height: 70,
+              height: 64,
               decoration: BoxDecoration(
                 color: SakhiColors.neutral100,
                 borderRadius: BorderRadius.circular(16),
               ),
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: 6),
           ],
         ],
       ),

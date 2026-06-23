@@ -37,8 +37,11 @@ class AttentionRow extends StatelessWidget {
         ? strings.remind
         : strings.reupload;
 
-    final isLocal = strings == SakhiStrings.of(SakhiLocale.tamil);
-    final displayName = isLocal ? client.tamilName : client.name;
+    final displayName = switch (strings.locale) {
+      SakhiLocale.hindi => client.hindiName,
+      SakhiLocale.tamil => client.tamilName,
+      _                 => client.name,
+    };
 
     return StaggerEntrance(
       index: index,

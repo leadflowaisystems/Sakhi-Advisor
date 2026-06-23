@@ -30,9 +30,11 @@ class ActivityRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final desc = locale == SakhiLocale.tamil
-        ? activity.tamilDescription
-        : activity.description;
+    final desc = switch (locale) {
+      SakhiLocale.hindi => activity.hindiDescription,
+      SakhiLocale.tamil => activity.tamilDescription,
+      _                 => activity.description,
+    };
 
     return StaggerEntrance(
       index: index,
