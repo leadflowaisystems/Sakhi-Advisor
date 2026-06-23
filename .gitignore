@@ -1,21 +1,27 @@
-# env
+# ── Environment / secrets ─────────────────────────────────────────────────────
 .env
 .env.local
 .env.*.local
 
-# deps
+# ── Dependencies ──────────────────────────────────────────────────────────────
 node_modules/
 .pnpm-store/
 
-# build
+# ── Build artefacts ───────────────────────────────────────────────────────────
 .next/
 dist/
 build/
+*.tsbuildinfo
 
-# supabase
+# ── Supabase ──────────────────────────────────────────────────────────────────
 supabase/.branches/
 supabase/.temp/
 
-# misc
+# ── Tooling caches ────────────────────────────────────────────────────────────
+.turbo/
+.claude/
+
+# ── OS / editor ───────────────────────────────────────────────────────────────
 .DS_Store
+Thumbs.db
 *.log
