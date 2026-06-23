@@ -1,8 +1,17 @@
 import { createClient } from '@supabase/supabase-js'
 import type { Database } from '@sakhi/db'
 
-const SUPABASE_URL = process.env['SUPABASE_URL'] ?? 'http://127.0.0.1:54321'
-const ANON_KEY = process.env['SUPABASE_ANON_KEY'] ?? ''
+// SUPABASE_URL / SUPABASE_ANON_KEY are the canonical test names (set in CI).
+// NEXT_PUBLIC_* are the Next.js build names — same values, used as local fallback
+// so developers only need one .env file at the monorepo root.
+const SUPABASE_URL =
+  process.env['SUPABASE_URL'] ??
+  process.env['NEXT_PUBLIC_SUPABASE_URL'] ??
+  'http://127.0.0.1:54321'
+const ANON_KEY =
+  process.env['SUPABASE_ANON_KEY'] ??
+  process.env['NEXT_PUBLIC_SUPABASE_ANON_KEY'] ??
+  ''
 const SERVICE_ROLE_KEY = process.env['SUPABASE_SERVICE_ROLE_KEY'] ?? ''
 
 if (!ANON_KEY) throw new Error('SUPABASE_ANON_KEY env var is required')

@@ -1,5 +1,6 @@
 import { describe, it, expect, beforeAll, afterAll } from 'vitest'
 import {
+  anonClient,
   createTestUser,
   signIn,
   cleanupTestUsers,
@@ -160,12 +161,7 @@ describe("7 · B cannot insert a client into A's org_id", () => {
 // ── 8. Anon cannot read clients ───────────────────────────────────────────────
 describe('8 · anonymous user cannot read clients', () => {
   it('returns zero rows (no session = no matching RLS policy)', async () => {
-    const { createClient } = await import('@supabase/supabase-js')
-    const anon = createClient(
-      process.env['SUPABASE_URL'] ?? 'http://127.0.0.1:54321',
-      process.env['SUPABASE_ANON_KEY'] ?? '',
-      { auth: { autoRefreshToken: false, persistSession: false } },
-    )
+    const anon = anonClient()
     const { data, error } = await anon.from('clients').select()
     const denied = error !== null || (data !== null && data.length === 0)
     expect(denied).toBe(true)
@@ -294,13 +290,9 @@ describe('12 · rowsecurity = true on all tenant tables', () => {
 
   it.each(tables)('%s has RLS enabled', async (table) => {
     const { data, error } = await adminClient
-      .from('pg_tables')
-      .select('rowsecurity')
-      .eq('schemaname', 'public')
-      .eq('tablename', table)
-      .single()
+      .rpc('table_has_rls', { p_table: table })
 
     expect(error).toBeNull()
-    expect((data as { rowsecurity: boolean } | null)?.rowsecurity).toBe(true)
+    expect(data).toBe(true)
   })
 })

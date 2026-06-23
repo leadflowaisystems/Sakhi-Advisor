@@ -4,6 +4,8 @@ export default defineConfig({
   test: {
     globals: true,
     environment: 'node',
+    // Loads .env from the monorepo root before any test file is imported.
+    setupFiles: ['./setup.ts'],
     testTimeout: 30000,
     hookTimeout: 30000,
     reporters: ['verbose'],
